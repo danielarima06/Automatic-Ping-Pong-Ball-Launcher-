@@ -1,0 +1,56 @@
+void TestMoveLauncher(void) {
+  //Uses UP/DOWN to increment counts variable.
+  //Uses LEFT/RIGHT to increment desiredPosition variable.
+  //Uses SELECT to tell the launcher that it is time to move (by setting the startMotion variable to 1)
+  //When no buttons are pressed, calls the MoveLauncher() function.
+  int prevButtonPressed = buttonPressed;
+  ReadButtons();
+  switch (buttonPressed) {
+    case 3:  //up button
+             // doing nothing
+
+
+    case 1:  // down button
+             // NEW - 2
+      tslIncrement = millis() - incrementTime;
+      if ((buttonPressed != prevButtonPressed) || (tslIncrement > 250)) {
+        incrementTime = millis();
+        if (buttonPressed == 3) {
+          counts = counts + 1;
+        } else if (buttonPressed == 1) {
+          counts = counts - 1;
+        }
+        Serial.print("the stripe number is ");
+        Serial.println(counts);
+      }
+      break;
+    case 4:  //left button
+             // doing nothing
+
+
+    case 2:  // right button
+             // NEW - 2
+      tslIncrement = millis() - incrementTime;
+      if ((buttonPressed != prevButtonPressed) || (tslIncrement > 250)) {
+        incrementTime = millis();
+        if (buttonPressed == 2) {
+          desiredPosition = desiredPosition + 1;
+        } else if (buttonPressed == 4) {
+          desiredPosition = desiredPosition - 1;
+        }
+        Serial.print("the desired position is ");
+        Serial.println(desiredPosition);
+      }
+      break;
+    case 5:  //select button
+      startMotion = 1;
+      break;
+    case 0:  // no button
+      if (userInput == 'h') {
+        MoveLauncher();
+      }
+      break;
+    default:  // wrong button
+      break;
+  }
+}
